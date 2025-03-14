@@ -101,5 +101,4 @@ public class EventController {
                     "Event cannot be deleted because it has tickets that have been sold", e);
         }
     }
-
 }

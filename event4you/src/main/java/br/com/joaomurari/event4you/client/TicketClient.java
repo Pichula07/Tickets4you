@@ -12,4 +12,5 @@ public interface TicketClient {
 
     @GetMapping("/check-tickets/{eventId}")
     TicketCheckResponseDTO checkTicketsByEvent(@PathVariable String eventId);
+
 }

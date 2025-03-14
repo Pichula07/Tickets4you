@@ -3,8 +3,8 @@ package br.com.joaomurari.ticket4you.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.joaomurari.ticket4you.dto.CheckTicketsResponse;
 import br.com.joaomurari.ticket4you.dto.CreateTicketDTO;
+import br.com.joaomurari.ticket4you.dto.TicketCheckResponseDTO;
 import br.com.joaomurari.ticket4you.dto.TicketResponseDTO;
 import br.com.joaomurari.ticket4you.model.Ticket;
 import br.com.joaomurari.ticket4you.service.TicketService;
@@ -40,14 +40,10 @@ public class TicketController {
     }
 
     @GetMapping("/check-tickets/{eventId}")
-    public ResponseEntity<?> checkTicketsByEvent(@PathVariable String eventId) {
-        boolean hasTickets = service.hasSoldTickets(eventId);
-
-        if (hasTickets) {
-            return ResponseEntity.ok(new CheckTicketsResponse(eventId, true, "Tickets sold for this event."));
-        } else {
-            return ResponseEntity.ok(new CheckTicketsResponse(eventId, false, "No tickets sold for this event."));
-        }
+    public ResponseEntity<TicketCheckResponseDTO> checkTicketsByEvent(@PathVariable("eventId") String eventId) {
+        boolean ticketsSold = service.checkTicketsByEvent(eventId);
+        TicketCheckResponseDTO response = new TicketCheckResponseDTO(ticketsSold);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/update-ticket/{ticketId}")

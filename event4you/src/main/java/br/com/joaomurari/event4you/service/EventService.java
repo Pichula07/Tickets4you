@@ -9,6 +9,7 @@ import br.com.joaomurari.event4you.client.TicketClient;
 import br.com.joaomurari.event4you.dto.TicketCheckResponseDTO;
 import br.com.joaomurari.event4you.model.Event;
 import br.com.joaomurari.event4you.repository.EventRepository;
+import feign.FeignException;
 import br.com.joaomurari.event4you.exception.ConflictException;
 import br.com.joaomurari.event4you.exception.ResourceNotFound;
 import lombok.RequiredArgsConstructor;
@@ -29,12 +30,12 @@ public class EventService {
     }
 
     public Event getById(String id) {
-        return repository.findById(id)
+        return repository.findByIdAndDeletedFalse(id)
                 .orElseThrow(() -> new ResourceNotFound("Event not found with id: " + id));
     }
 
     public List<Event> getAllSorted() {
-        List<Event> events = repository.findAll();
+        List<Event> events = repository.findByDeletedFalse();
         return events.stream()
                 .sorted((e1, e2) -> {
                     String eventName1 = e1.getEventName();
@@ -53,7 +54,7 @@ public class EventService {
     }
 
     public Event update(String id, Event updatedEvent) {
-        return repository.findById(id).map(event -> {
+        return repository.findByIdAndDeletedFalse(id).map(event -> {
             event.setEventName(updatedEvent.getEventName());
             event.setDateTime(updatedEvent.getDateTime());
             event.setZipCode(updatedEvent.getZipCode());
@@ -68,21 +69,23 @@ public class EventService {
     public boolean hasSoldTickets(String eventId) {
         try {
             TicketCheckResponseDTO response = ticketClient.checkTicketsByEvent(eventId);
-            return response.isHasTickets();
+            return response != null && response.isHasTickets();
+        } catch (FeignException.NotFound e) {
+            return false;
         } catch (Exception e) {
             throw new ConflictException("Error while checking tickets for event: " + eventId);
         }
     }
 
     public void deleteEvent(String id) {
-
         if (hasSoldTickets(id)) {
             throw new ConflictException("Event cannot be deleted because it has tickets that have been sold");
         }
 
-        Event event = repository.findById(id).orElseThrow(() -> new ResourceNotFound("Event not found"));
+        Event event = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFound("Event not found"));
+
         event.setDeleted(true);
         repository.save(event);
     }
-
 }

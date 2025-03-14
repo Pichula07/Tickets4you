@@ -1,9 +1,7 @@
 package br.com.joaomurari.ticket4you.service;
 
-import java.util.HashMap;
 import java.util.List;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -37,6 +35,7 @@ public class TicketService {
                 .customerName(dto.getCustomerName())
                 .cpf(dto.getCpf())
                 .customerEmail(dto.getCustomerEmail())
+                .eventId(dto.getEventId())
                 .brlAmount(dto.getBrlAmount())
                 .usdAmount(dto.getUsdAmount())
                 .deleted(false)
@@ -66,13 +65,8 @@ public class TicketService {
     }
 
     public TicketResponseDTO getTicketById(String id) {
-        Optional<Ticket> ticketOpt = ticketRepository.findById(id);
-
-        if (ticketOpt.isEmpty()) {
-            throw new TicketNotFoundException("Ticket not found with ID: " + id);
-        }
-
-        Ticket ticket = ticketOpt.get();
+        Ticket ticket = ticketRepository.findById(id)
+                .orElseThrow(() -> new TicketNotFoundException("Ticket not found with ID: " + id));
 
         EventDTO event = eventClient.getEventById(ticket.getEventId());
 
@@ -94,6 +88,10 @@ public class TicketService {
                 .toList();
     }
 
+    public boolean checkTicketsByEvent(String eventId) {
+        return ticketRepository.existsByEventId(eventId);
+    }
+
     @Transactional
     public void deleteTicketByCpf(String cpf) {
         List<Ticket> tickets = ticketRepository.findByCpf(cpf);
@@ -103,11 +101,6 @@ public class TicketService {
         }
 
         ticketRepository.deleteAll(tickets);
-    }
-
-    public boolean hasSoldTickets(String eventId) {
-        List<Ticket> tickets = ticketRepository.findByEventId(eventId);
-        return !tickets.isEmpty();
     }
 
     public void deleteTicket(String ticketId) {

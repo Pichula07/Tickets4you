@@ -1,0 +1,9 @@
+FROM openjdk:17-jdk-slim
+
+WORKDIR /app
+
+COPY target/ms-event4you-0.0.1.jar ms-event4you-0.0.1.jar
+
+EXPOSE 8081
+
+ENTRYPOINT ["java", "-jar", "ms-event4you-0.0.1.jar"]

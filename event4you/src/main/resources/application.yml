@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: event4you
+
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/db_event
+
+server:
+  port: 8081

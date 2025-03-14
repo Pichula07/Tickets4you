@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: ticket4you
+
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/db_ticket
+
+server:
+  port: 8082

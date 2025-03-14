@@ -1,0 +1,35 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-Ticket4youApplication<event4you>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "br.com.joaomurari.event4you.Event4youApplication",
+      "projectName": "event4you",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env",
+      "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=65157 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=event4you"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-Ticket4youApplication<ticket4you>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "br.com.joaomurari.ticket4you.Ticket4youApplication",
+      "projectName": "ticket4you",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-Event4youApplication<ticket4you>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "br.com.joaomurari.event4you.Event4youApplication",
+      "projectName": "ticket4you",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}

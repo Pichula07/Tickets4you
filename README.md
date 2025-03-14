@@ -58,26 +58,68 @@ A aplicação utiliza **MongoDB** como banco de dados e está hospedada na **AWS
 
 ## Exemplo de Requisição
 
-### Criando um evento
+### Criando um event
 
-**POST** `http://3.138.32.175:8081/api/events/v1/create-event`
+**POST** `http://3.138.32.175:8082/api/events/v1/create-event`
 
 ```json
+Entrada:
 {
-  "name": "Tech Conference 2025",
-  "location": "São Paulo",
-  "date": "2025-04-15"
+  "eventName": "Teste nome de evento",
+  "dateTime": "2024-12-31T21:00:00",
+  "zipCode": "99704394"
+}
+Observação : O zip code puxa automáticamente o endereço completo do código postal
+
+SAIDA:
+{
+	"id": "67d48bf266d5473308ba3103",
+	"eventName": "Festa do github",
+	"dateTime": "2024-12-31T21:00:00",
+	"zipCode": "99704394",
+	"street": "Rua do Brasil",
+	"neighborhood": "Bairro do Teste",
+	"city": "Erechim",
+	"state": "RS"
 }
 ```
+
+---
 
 ### Criando um ticket
 
 **POST** `http://3.138.32.175:8082/api/tickets/v1/create-ticket`
 
 ```json
+Entrada:
+  {
+  "customerName": "João Pedro Teste",
+  "cpf": "57325760027",
+  "customerEmail": "joao.silva@example.com",
+  "eventId": "67d48bf266d5473308ba3103",
+  "brlAmount": "300.00",
+  "usdAmount": "55.00"
+}
+Observação : O eventId deve corresponder a um evento válido, se não retornará um erro.
+
+Saida:
 {
-  "eventId": "67d47c9bd96a5451c2a6de0d",
-  "cpf": "123.456.789-00"
+	"id": "f6fd4f2c-772d-4c70-9047-12845f1faf7e",
+	"customerName": "João Pedro Teste",
+	"cpf": "57325760027",
+	"customerEmail": "joao.silva@example.com",
+	"event": {
+		"id": "67d48bf266d5473308ba3103",
+		"eventName": "Festa do github",
+		"dateTime": "2024-12-31T21:00:00",
+		"street": "Rua do Brasil",
+		"neighborhood": "Bairro do teste",
+		"city": "Erechim",
+		"state": "RS"
+	},
+	"brlTotalAmount": "R$ 300.00",
+	"usdTotalAmount": "USD 55.00",
+	"status": "concluído"
 }
 ```
 

@@ -1,35 +1,53 @@
 version: '3.8'
+
 services:
+  ms-event:
+    build:
+      context: ./event4you
+      dockerfile: Dockerfile
+    container_name: ms-event
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/db_event
+      TICKET_API: ms-ticket:8082
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongodb
+    networks:
+      - backend
+
+  ms-ticket:
+    build:
+      context: ./ticket4you
+      dockerfile: Dockerfile
+    container_name: ms-ticket
+    depends_on:
+      - ms-event
+      - mongodb
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/db_ticket
+      EVENT_API: ms-event:8081
+    ports:
+      - "8082:8082"
+    networks:
+      - backend
+
   mongodb:
-    image: mongo
+    image: mongo:latest
     container_name: mongodb
+    environment:
+      MONGO_INITDB_DATABASE: db_event
+    volumes:
+      - mongodb-data:/data/db
     ports:
       - "27017:27017"
-    volumes:
-      - mongo_data:/data/db
+    networks:
+      - backend
 
-  event-service:
-    build: ./event4you
-    container_name: event-service
-    depends_on:
-      - mongodb
-    ports:
-      - "8081:8080"
-    environment:
-      SPRING_PROFILES_ACTIVE: prod
-      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/eventdb
-
-  ticket-service:
-    build: ./ticket4you
-    container_name: ticket-service
-    depends_on:
-      - mongodb
-      - event-service
-    ports:
-      - "8082:8080"
-    environment:
-      SPRING_PROFILES_ACTIVE: prod
-      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/ticketdb
+networks:
+  backend:
+    driver: bridge
 
 volumes:
-  mongo_data:
+  mongodb-data:
+    driver: local

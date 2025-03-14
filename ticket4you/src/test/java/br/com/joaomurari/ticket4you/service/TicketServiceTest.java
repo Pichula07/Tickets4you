@@ -4,6 +4,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -24,6 +25,12 @@ import java.util.Optional;
 
 @SpringBootTest
 public class TicketServiceTest {
+
+    @BeforeAll
+    static void setUp() {
+        System.setProperty("EVENT_API", "localhost:8081");
+        System.setProperty("TICKET_API", "localhost:8082");
+    }
 
     @Mock
     private TicketRepository ticketRepository;

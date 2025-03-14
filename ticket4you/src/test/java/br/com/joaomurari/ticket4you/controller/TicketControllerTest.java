@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.Collections;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -23,6 +24,12 @@ import br.com.joaomurari.ticket4you.service.TicketService;
 
 @WebMvcTest(TicketController.class)
 public class TicketControllerTest {
+
+    @BeforeAll
+    static void setUp() {
+        System.setProperty("EVENT_API", "localhost:8081");
+        System.setProperty("TICKET_API", "localhost:8082");
+    }
 
     @Autowired
     private MockMvc mockMvc;

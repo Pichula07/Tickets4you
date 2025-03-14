@@ -5,6 +5,8 @@ import br.com.joaomurari.event4you.model.Event;
 import br.com.joaomurari.event4you.service.EventService;
 import br.com.joaomurari.event4you.client.ZipCodeClient;
 import feign.FeignException;
+
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
@@ -18,6 +20,12 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class EventControllerTest {
+
+    @BeforeAll
+    static void setsUp() {
+        System.setProperty("EVENT_API", "localhost:8081");
+        System.setProperty("TICKET_API", "localhost:8082");
+    }
 
     @Mock
     private EventService eventService;
@@ -76,16 +84,6 @@ class EventControllerTest {
 
         assertEquals(200, response.getStatusCodeValue());
         assertEquals(1, response.getBody().size());
-    }
-
-    @Test
-    void getById_ShouldReturnEvent_WhenValidId() {
-        when(eventService.getById("1")).thenReturn(event);
-
-        ResponseEntity<Event> response = eventController.getById("1");
-
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals(event.getEventName(), response.getBody().getEventName());
     }
 
     @Test

@@ -7,7 +7,7 @@ import br.com.joaomurari.event4you.dto.TicketCheckResponseDTO;
 
 import org.springframework.cloud.openfeign.FeignClient;
 
-@FeignClient(name = "ticket4you", url = "http://localhost:8082/api/tickets/v1")
+@FeignClient(name = "ticket4you", url = "http://${TICKET_API}/api/tickets/v1")
 public interface TicketClient {
 
     @GetMapping("/check-tickets/{eventId}")

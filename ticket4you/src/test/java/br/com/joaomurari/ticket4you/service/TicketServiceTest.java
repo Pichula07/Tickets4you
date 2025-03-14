@@ -52,7 +52,7 @@ public class TicketServiceTest {
         dto.setEventId("eventId");
         dto.setCustomerName("John Doe");
         dto.setCpf("12345678900");
-        dto.setCustomerMail("johndoe@example.com");
+        dto.setCustomerEmail("johndoe@example.com");
         dto.setBrlAmount("100.0");
         dto.setUsdAmount("20.0");
 
@@ -67,7 +67,7 @@ public class TicketServiceTest {
         assertNotNull(result);
         assertEquals("John Doe", result.getCustomerName());
         assertEquals("12345678900", result.getCpf());
-        assertEquals("johndoe@example.com", result.getCustomerMail());
+        assertEquals("johndoe@example.com", result.getCustomerEmail());
         verify(ticketRepository, times(1)).save(any(Ticket.class));
     }
 
@@ -77,7 +77,7 @@ public class TicketServiceTest {
         dto.setEventId("eventId");
         dto.setCustomerName("John Doe");
         dto.setCpf("12345678900");
-        dto.setCustomerMail("johndoe@example.com");
+        dto.setCustomerEmail("johndoe@example.com");
         dto.setBrlAmount("100.0");
         dto.setUsdAmount("20.0");
 
@@ -97,7 +97,7 @@ public class TicketServiceTest {
         dto.setEventId("eventId");
         dto.setCustomerName("John Doe");
         dto.setCpf("12345678900");
-        dto.setCustomerMail("johndoe@example.com");
+        dto.setCustomerEmail("johndoe@example.com");
         dto.setBrlAmount("100.0");
         dto.setUsdAmount("20.0");
 
@@ -124,7 +124,7 @@ public class TicketServiceTest {
         dto.setEventId("eventId");
         dto.setCustomerName("Jane Doe");
         dto.setCpf("09876543210");
-        dto.setCustomerMail("janedoe@example.com");
+        dto.setCustomerEmail("janedoe@example.com");
         dto.setBrlAmount("150.0");
         dto.setUsdAmount("30.0");
 
@@ -144,7 +144,7 @@ public class TicketServiceTest {
         assertNotNull(result);
         assertEquals("Jane Doe", result.getCustomerName());
         assertEquals("09876543210", result.getCpf());
-        assertEquals("janedoe@example.com", result.getCustomerMail());
+        assertEquals("janedoe@example.com", result.getCustomerEmail());
         verify(ticketRepository, times(1)).save(any(Ticket.class));
     }
 

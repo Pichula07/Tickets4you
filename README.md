@@ -9,6 +9,7 @@ Esta aplicação consiste em dois microsserviços:
 
 A aplicação utiliza **MongoDB** como banco de dados e está hospedada na **AWS EC2**, acessível pelo IP **3.138.32.175**.
 
+OBSERVAÇÃO = No momento, a instância EC2 foi derrubada por questões financeiras, mas a api funciona perfeitamente de forma local também.
 ---
 
 ## Tecnologias Utilizadas

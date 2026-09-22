@@ -11,7 +11,7 @@
 	<groupId>br.com.joaomurari</groupId>
 	<artifactId>ticket4you</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>event4you</name>
+	<name>ticket4you</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
